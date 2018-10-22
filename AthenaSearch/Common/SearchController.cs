@@ -71,10 +71,28 @@ namespace AthenaSearch.Common
             else
             {
                 _databaseItems = _databaseItems.OrderBy(x => x.Name).ToList();
-                var items = _databaseItems.Where(x => x.Name.StartsWith(inputString, StringComparison.InvariantCultureIgnoreCase));
+
+                var items = _databaseItems.Where(x => x.Name.StartsWith(inputString, StringComparison.InvariantCultureIgnoreCase)).ToArray();
 
                 int index = 0;
                 foreach (var item in items)
+                {
+                    var si = new SearchItem
+                    {
+                        ID = index,
+                        Image = item.Image,
+                        Name = item.Name,
+                        SourceItem = item
+                    };
+
+                    index++;
+
+                    list.Add(si);
+                }
+
+                var nonDirectItems = _databaseItems.Where(x => !items.Contains(x)).Where(x => x.Name.ToLower().Contains(inputString.ToLower()));
+
+                foreach (var item in nonDirectItems)
                 {
                     var si = new SearchItem
                     {

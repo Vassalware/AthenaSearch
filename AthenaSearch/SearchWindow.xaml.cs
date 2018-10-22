@@ -129,7 +129,15 @@ namespace AthenaSearch
 
                     if (ResultListBox.SelectedItem is SearchItem searchItem)
                     {
-                        SearchSuggestionString = SearchBox.Text + searchItem.Name.Substring(SearchBox.Text.Length, searchItem.Name.Length - SearchBox.Text.Length);
+                        if (searchItem.Name.ToLower().StartsWith(textBox.Text.ToLower()))
+                        {
+                            SearchSuggestionString = SearchBox.Text + searchItem.Name.Substring(SearchBox.Text.Length, searchItem.Name.Length - SearchBox.Text.Length);
+                        }
+                        else
+                        {
+                            var str = searchItem.Name.Substring(searchItem.Name.ToLower().IndexOf(textBox.Text.ToLower(), StringComparison.Ordinal));
+                            SearchSuggestionString = SearchBox.Text + str.Substring(SearchBox.Text.Length, str.Length - SearchBox.Text.Length);
+                        }
                     }
                 }
                 else
