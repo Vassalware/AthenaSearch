@@ -141,7 +141,9 @@ namespace AthenaSearch
 
             UpdateWindowHeight();
 
-            Task.Delay(100).ContinueWith(_ => Dispatcher.Invoke(UpdateWindowHeight));
+            // Call UpdateWindowHeight after a short delay, so ResultListBox has time to update
+            // its height after the DisplaySearchItems were changed. (Better way to do this?)
+            Task.Delay(1).ContinueWith(_ => Dispatcher.Invoke(UpdateWindowHeight));
         }
 
         private void UpdateSearchSuggestionString()
