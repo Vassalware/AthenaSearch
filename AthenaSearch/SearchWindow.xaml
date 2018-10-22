@@ -9,7 +9,10 @@
         mc:Ignorable="d"
         Loaded="Window_Loaded"
         ShowInTaskbar="False"
-        Title="SearchWindow" Height="450" Width="800" AllowsTransparency="True" WindowStyle="None" Background="#00000000">
+        Title="SearchWindow" 
+        Deactivated="AthenaSearchWindow_Deactivated"
+        Topmost="True"
+        Height="450" Width="680" AllowsTransparency="True" WindowStyle="None" Background="#00000000">
     <Grid>
         <Grid.Resources>
             <Style x:Key="ResultsFocusStyle">

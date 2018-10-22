@@ -15,6 +15,7 @@ namespace AthenaSearch
         private SearchController _searchController;
         private string _searchSuggestionString;
         private double _top = int.MinValue;
+        private bool _isClosing = false;
 
         public string SearchSuggestionString
         {
@@ -47,6 +48,8 @@ namespace AthenaSearch
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            this.Activate();
+
             // Center the window.
             Left = SystemParameters.WorkArea.Width / 2f - Width / 2f;
             Top = SystemParameters.WorkArea.Height / 2f - Height / 2f;
@@ -106,10 +109,7 @@ namespace AthenaSearch
                 item.IsSelected = val;
             }
 
-            if (ResultListBox.SelectedItem is SearchItem searchItem)
-            {
-                SearchSuggestionString = searchItem.Name;
-            }
+            UpdateSearchSuggestionString();
         }
 
         private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -118,31 +118,33 @@ namespace AthenaSearch
             if (_searchController == null)
                 return;
 
-            if (e.Source is TextBox textBox)
+            var searchResult = _searchController.Search(SearchBox.Text);
+            DisplaySearchItems = searchResult.SearchItemList;
+
+            if (ResultListBox.Items.Count > 0)
             {
-                var searchResult = _searchController.Search(textBox.Text);
-                DisplaySearchItems = searchResult.SearchItemList;
+                ResultListBox.SelectedIndex = 0;
+                UpdateSearchSuggestionString();
+            }
+            else
+            {
+                SearchSuggestionString = "";
+            }
+        }
 
-                if (ResultListBox.Items.Count > 0)
+        private void UpdateSearchSuggestionString()
+        {
+            if (ResultListBox.SelectedItem is SearchItem searchItem)
+            {
+                if (searchItem.Name.ToLower().StartsWith(SearchBox.Text.ToLower()))
                 {
-                    ResultListBox.SelectedIndex = 0;
-
-                    if (ResultListBox.SelectedItem is SearchItem searchItem)
-                    {
-                        if (searchItem.Name.ToLower().StartsWith(textBox.Text.ToLower()))
-                        {
-                            SearchSuggestionString = SearchBox.Text + searchItem.Name.Substring(SearchBox.Text.Length, searchItem.Name.Length - SearchBox.Text.Length);
-                        }
-                        else
-                        {
-                            var str = searchItem.Name.Substring(searchItem.Name.ToLower().IndexOf(textBox.Text.ToLower(), StringComparison.Ordinal));
-                            SearchSuggestionString = SearchBox.Text + str.Substring(SearchBox.Text.Length, str.Length - SearchBox.Text.Length);
-                        }
-                    }
+                    SearchSuggestionString = SearchBox.Text + searchItem.Name.Substring(SearchBox.Text.Length, searchItem.Name.Length - SearchBox.Text.Length);
                 }
                 else
                 {
-                    SearchSuggestionString = "";
+                    var loc = searchItem.Name.ToLower().IndexOf(SearchBox.Text.ToLower(), StringComparison.Ordinal);
+                    var str = searchItem.Name.Substring(loc);
+                    SearchSuggestionString = SearchBox.Text + str.Substring(SearchBox.Text.Length, str.Length - SearchBox.Text.Length);
                 }
             }
         }
@@ -181,6 +183,7 @@ namespace AthenaSearch
             this.BeginAnimation(Window.OpacityProperty, opacityAnimation);
             */
 
+            _isClosing = true;
             this.Close();
         }
 
@@ -189,6 +192,14 @@ namespace AthenaSearch
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void AthenaSearchWindow_Deactivated(object sender, EventArgs e)
+        {
+            if (!_isClosing && this.IsKeyboardFocusWithin)
+            {
+                this.Close();
+            }
         }
     }
 }
