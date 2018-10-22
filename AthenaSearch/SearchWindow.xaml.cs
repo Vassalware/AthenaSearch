@@ -2,11 +2,13 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Animation;
 using AthenaSearch.Common;
+using AthenaSearch.Helpers;
 
 namespace AthenaSearch
 {
@@ -48,6 +50,10 @@ namespace AthenaSearch
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
+            // Enable Blur
+            BlurHelper.EnableBlur(this);
+
+            // Ensure the window gains focus.
             this.Activate();
 
             // Center the window.
@@ -70,6 +76,8 @@ namespace AthenaSearch
 
             this.BeginAnimation(Window.TopProperty, topAnimation);
             this.BeginAnimation(Window.OpacityProperty, opacityAnimation);
+
+            UpdateWindowHeight();
         }
 
         private void SearchBox_PreviewKeyDown(object sender, KeyEventArgs e)
@@ -130,6 +138,10 @@ namespace AthenaSearch
             {
                 SearchSuggestionString = "";
             }
+
+            UpdateWindowHeight();
+
+            Task.Delay(100).ContinueWith(_ => Dispatcher.Invoke(UpdateWindowHeight));
         }
 
         private void UpdateSearchSuggestionString()
@@ -152,6 +164,7 @@ namespace AthenaSearch
         private void ResultListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             OnTraverse();
+            UpdateWindowHeight();
         }
 
         private void SearchBox_Loaded(object sender, RoutedEventArgs e)
@@ -187,6 +200,11 @@ namespace AthenaSearch
             this.Close();
         }
 
+        private void UpdateWindowHeight()
+        {
+            Height = 68 + ResultListBox.ActualHeight;
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -198,7 +216,7 @@ namespace AthenaSearch
         {
             if (!_isClosing && this.IsKeyboardFocusWithin)
             {
-                this.Close();
+                //this.Close();
             }
         }
     }

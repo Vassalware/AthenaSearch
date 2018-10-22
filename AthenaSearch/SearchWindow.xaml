@@ -9,23 +9,23 @@
         mc:Ignorable="d"
         Loaded="Window_Loaded"
         ShowInTaskbar="False"
-        Title="SearchWindow" 
+        Title="SearchWindow"
         Deactivated="AthenaSearchWindow_Deactivated"
         Topmost="True"
-        Height="450" Width="680" AllowsTransparency="True" WindowStyle="None" Background="#00000000">
+        MaxHeight="356" Width="680" AllowsTransparency="True" WindowStyle="None" Background="#00000000">
     <Grid>
         <Grid.Resources>
             <Style x:Key="ResultsFocusStyle">
                 <Setter Property="Control.Template">
                     <Setter.Value>
                         <ControlTemplate TargetType="{x:Type Control}">
-                            <Rectangle Name="r1" Width="10" Height="10" Fill="Orange"/>
+                            <Rectangle Name="r1" Width="10" Height="10" Fill="Orange" />
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
             </Style>
             <Style x:Key="ResultsStyle" TargetType="ListBoxItem">
-                <Setter Property="OverridesDefaultStyle" Value="True"/>
+                <Setter Property="OverridesDefaultStyle" Value="True" />
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding IsSelected}" Value="True">
                         <Setter Property="Foreground" Value="White" />
@@ -54,7 +54,7 @@
             </Style>
         </Grid.Resources>
         <Grid Width="680">
-            <StackPanel Orientation="Vertical" Background="#ede7eb" Height="Auto" VerticalAlignment="Top">
+            <StackPanel Orientation="Vertical" Background="#99EDE7EB" Height="Auto" VerticalAlignment="Top">
                 <StackPanel Orientation="Horizontal" Background="Transparent" Margin="5" Height="56">
                     <!-- <Rectangle Width="45" Height="45" Fill="Transparent" /> -->
                     <Image Width="45" Height="45">
@@ -63,52 +63,57 @@
                         </Image.Source>
                     </Image>
                     <Canvas Height="45" Margin="0,7,0,0">
-                        <TextBox Name="SearchSuggestion" 
-                                 Foreground="#6f6a6d"
-                                 Width="445" 
+                        <TextBox Name="SearchSuggestion"
+                                 Foreground="#3F3C3E"
+                                 Width="445"
                                  Margin="0,4,0,0"
-                                 Text="" 
-                                 FontSize="30" 
-                                 VerticalAlignment="Center" 
-                                 FontFamily="Helvetica" 
+                                 Text=""
+                                 FontSize="30"
+                                 VerticalAlignment="Center"
+                                 FontFamily="Helvetica"
                                  TextOptions.TextFormattingMode="Display"
                                  TextOptions.TextRenderingMode="ClearType"
                                  SelectionBrush="Transparent"
                                  Background="Transparent"
                                  BorderThickness="0"
-                                 IsEnabled="False"/>
+                                 IsEnabled="False" />
                         <TextBox Name="SearchBox"
                                  Foreground="#333333"
-                                 Width="445" 
+                                 Width="445"
                                  Margin="0,4,0,0"
                                  Text=""
-                                 FontSize="30" 
-                                 VerticalAlignment="Center" 
-                                 FontFamily="Helvetica" 
+                                 FontSize="30"
+                                 VerticalAlignment="Center"
+                                 FontFamily="Helvetica"
                                  TextOptions.TextFormattingMode="Display"
                                  TextOptions.TextRenderingMode="ClearType"
-                                 Background="Transparent" 
+                                 Background="Transparent"
                                  BorderThickness="0"
                                  CaretBrush="#6f6a6d"
                                  Loaded="SearchBox_Loaded"
                                  PreviewKeyDown="SearchBox_PreviewKeyDown"
-                                 TextChanged="SearchBox_TextChanged"/>
+                                 TextChanged="SearchBox_TextChanged" />
                     </Canvas>
                     <!-- <TextBox Name="SearchBox2" Width="445" Height="45" Text="asdfsdafwef" FontSize="30" VerticalAlignment="Center" FontFamily="Helvetica" Background="Red" /> -->
                     <!-- <TextBox Name="SearchBox2" Width="445" Text="asdfsdafwef" FontSize="30" VerticalAlignment="Center" FontFamily="Helvetica" Background="Red" /> -->
                 </StackPanel>
-                <Rectangle Width="Auto" Height="1" Fill="#aad4d2d6" />
+                <Rectangle Width="Auto" Height="1" Fill="Transparent" />
                 <StackPanel Orientation="Vertical" MaxHeight="300" Margin="1">
-                    <ListBox Name="ResultListBox" MaxHeight="300" Margin="-1" Background="#aaeae8ec" ItemsSource="{Binding DisplaySearchItems, ElementName=AthenaSearchWindow}" ItemContainerStyle="{StaticResource ResultsStyle}" SelectionChanged="ResultListBox_SelectionChanged" BorderBrush="Transparent" BorderThickness="0">
+                    <ListBox Name="ResultListBox" MaxHeight="300" Margin="-1" Background="Transparent"
+                             ItemsSource="{Binding DisplaySearchItems, ElementName=AthenaSearchWindow}"
+                             ItemContainerStyle="{StaticResource ResultsStyle}"
+                             SelectionChanged="ResultListBox_SelectionChanged" 
+                             BorderBrush="Transparent"
+                             BorderThickness="0">
                         <ListBox.ItemTemplate>
                             <DataTemplate DataType="common:SearchItem">
                                 <StackPanel Orientation="Horizontal" Height="40">
                                     <Grid Width="32" Height="32" Margin="4,0,0,0">
-                                        <Image Source="{Binding Image}" Width="32" Height="32">
-                                        </Image>
+                                        <Image Source="{Binding Image}" Width="32" Height="32" />
                                     </Grid>
                                     <Border BorderBrush="{x:Null}" Height="32">
-                                        <TextBlock Text="{Binding Name}" Margin="10,2,0,0" FontSize="18" FontFamily="Helvetica" Height="Auto" VerticalAlignment="Center"/>
+                                        <TextBlock Text="{Binding Name}" Margin="10,2,0,0" FontSize="18"
+                                                   FontFamily="Helvetica" Height="Auto" VerticalAlignment="Center" />
                                     </Border>
                                 </StackPanel>
                             </DataTemplate>
