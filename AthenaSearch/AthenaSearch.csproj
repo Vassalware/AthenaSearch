@@ -70,6 +70,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Helpers\BlurHelper.cs" />
+    <Compile Include="Helpers\IconHelper.cs" />
+    <Compile Include="Items\CommandItem.cs" />
     <Compile Include="TrayWindow.xaml.cs">
       <DependentUpon>TrayWindow.xaml</DependentUpon>
     </Compile>
