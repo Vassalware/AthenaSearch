@@ -13,13 +13,15 @@ namespace AthenaSearch.Items
     {
         private readonly string _name;
         private readonly string _path;
+        private readonly string _arguments;
         private readonly ImageSource _image;
 
-        public ApplicationItem(string name, string path, ImageSource image)
+        public ApplicationItem(string name, string path, ImageSource image, string arguments = "")
         {
             _name = name;
             _path = path;
             _image = image;
+            _arguments = arguments;
         }
 
         public string Name => _name;
@@ -27,7 +29,14 @@ namespace AthenaSearch.Items
 
         public void Execute()
         {
-            Process.Start(_path);
+            new Process
+            {
+                StartInfo = new ProcessStartInfo
+                {
+                    FileName = _path,
+                    Arguments = _arguments
+                }
+            }.Start();
         }
     }
 }
