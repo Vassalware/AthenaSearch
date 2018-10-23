@@ -1,4 +1,5 @@
-﻿using AthenaSearch.Items;
+﻿using AthenaSearch.Helpers;
+using AthenaSearch.Items;
 
 namespace AthenaSearch
 {
@@ -7,17 +8,27 @@ namespace AthenaSearch
         public string Name { get; set; }
         public string Path { get; set; }
         public string IconPath { get; set; }
+        public string Command { get; set; }
 
+        // TODO: Implement aliases
         public string[] Aliases { get; set; } = new string[0];
 
         public ISearchableItem ToSearchableItem()
         {
-            if (IconPath != null && IconPath.EndsWith(".exe"))
-            {
-                return ApplicationItem.FromApplicationPath(Path, Name, IconPath);
-            }
+            var name = Has(Name) ? Name : throw new System.Exception("Item in json file does not have 'Name' field.");
 
-            return ApplicationItem.FromApplicationPath(Path, Name);
+            if (Has(IconPath) && Has(Path))
+                return new ApplicationItem(name, Path, IconHelper.GetIconFromExePath(IconPath));
+
+            if (Has(IconPath) && Has(Command))
+                return new CommandItem(name, Command, IconHelper.GetIconFromExePath(IconPath));
+
+            return new ApplicationItem(name, Path, IconHelper.GetIconFromExePath(Path));
+        }
+
+        private bool Has(string value)
+        {
+            return !string.IsNullOrEmpty(value);
         }
     }
 }

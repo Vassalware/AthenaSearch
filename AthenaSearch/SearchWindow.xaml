@@ -15,15 +15,6 @@
         MaxHeight="356" Width="680" AllowsTransparency="True" WindowStyle="None" Background="#00000000">
     <Grid>
         <Grid.Resources>
-            <Style x:Key="ResultsFocusStyle">
-                <Setter Property="Control.Template">
-                    <Setter.Value>
-                        <ControlTemplate TargetType="{x:Type Control}">
-                            <Rectangle Name="r1" Width="10" Height="10" Fill="Orange" />
-                        </ControlTemplate>
-                    </Setter.Value>
-                </Setter>
-            </Style>
             <Style x:Key="ResultsStyle" TargetType="ListBoxItem">
                 <Setter Property="OverridesDefaultStyle" Value="True" />
                 <Style.Triggers>
@@ -32,7 +23,7 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListBoxItem">
-                                    <Grid Background="#2e85f7">
+                                    <Grid Background="#992e85f7">
                                         <ContentPresenter />
                                     </Grid>
                                 </ControlTemplate>
@@ -43,7 +34,7 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="ListBoxItem">
-                                    <Grid Background="#ede7eb">
+                                    <Grid Background="#99ede7eb">
                                         <ContentPresenter />
                                     </Grid>
                                 </ControlTemplate>
@@ -56,7 +47,6 @@
         <Grid Width="680">
             <StackPanel Orientation="Vertical" Background="#99EDE7EB" Height="Auto" VerticalAlignment="Top">
                 <StackPanel Orientation="Horizontal" Background="Transparent" Margin="5" Height="56">
-                    <!-- <Rectangle Width="45" Height="45" Fill="Transparent" /> -->
                     <Image Width="45" Height="45">
                         <Image.Source>
                             <BitmapImage UriSource="Resources/search_icon.png" DecodePixelWidth="45" />
@@ -94,8 +84,6 @@
                                  PreviewKeyDown="SearchBox_PreviewKeyDown"
                                  TextChanged="SearchBox_TextChanged" />
                     </Canvas>
-                    <!-- <TextBox Name="SearchBox2" Width="445" Height="45" Text="asdfsdafwef" FontSize="30" VerticalAlignment="Center" FontFamily="Helvetica" Background="Red" /> -->
-                    <!-- <TextBox Name="SearchBox2" Width="445" Text="asdfsdafwef" FontSize="30" VerticalAlignment="Center" FontFamily="Helvetica" Background="Red" /> -->
                 </StackPanel>
                 <Rectangle Width="Auto" Height="1" Fill="Transparent" />
                 <StackPanel Orientation="Vertical" MaxHeight="300" Margin="1">
