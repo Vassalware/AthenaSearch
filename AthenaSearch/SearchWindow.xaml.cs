@@ -16,7 +16,6 @@ namespace AthenaSearch
     {
         private SearchController _searchController;
         private string _searchSuggestionString;
-        private double _top = int.MinValue;
         private bool _isClosing = false;
 
         public string SearchSuggestionString
@@ -59,9 +58,6 @@ namespace AthenaSearch
             // Center the window.
             Left = SystemParameters.WorkArea.Width / 2f - Width / 2f;
             Top = SystemParameters.WorkArea.Height / 2f - Height / 2f;
-
-            // Save centered Top property.
-            _top = Top;
 
             // Start animations
             var topAnimation = new DoubleAnimation(Top - 50, Top, new Duration(TimeSpan.FromSeconds(0.4f)))
@@ -178,32 +174,14 @@ namespace AthenaSearch
 
         private void CloseWindow()
         {
-            /*
-            var topAnimation = new DoubleAnimation(Top, Top + 10, new Duration(TimeSpan.FromSeconds(0.2f)))
-            {
-                //EasingFunction = new CubicEase { EasingMode = EasingMode.EaseIn }
-            };
-
-            var opacityAnimation = new DoubleAnimation(1f, 0f, new Duration(TimeSpan.FromSeconds(0.2f)))
-            {
-                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseIn }
-            };
-
-            topAnimation.Completed += (o, e) =>
-            {
-                Close();
-            };
-
-            this.BeginAnimation(Window.TopProperty, topAnimation);
-            this.BeginAnimation(Window.OpacityProperty, opacityAnimation);
-            */
-
+            // Set _isClosing so we don't Close twice 
             _isClosing = true;
-            this.Close();
+            Close();
         }
 
         private void UpdateWindowHeight()
         {
+            // Update the height of the window so the transparency blur effect doesn't go beyond the ListBox area.
             Height = 68 + ResultListBox.ActualHeight;
         }
 
@@ -218,7 +196,7 @@ namespace AthenaSearch
         {
             if (!_isClosing && this.IsKeyboardFocusWithin)
             {
-                //this.Close();
+                this.Close();
             }
         }
     }
